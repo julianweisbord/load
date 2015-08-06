@@ -38,12 +38,14 @@ def find_size(website):
 def main():
     try:
         url = sys.argv[1]
-
-    except IndexError:
-        print "No arguments supplied so we will default to youtube.com"
+    except (IndexError, ValueError):
+        print "No arguments were supplied so we will default to youtube.com"
         url = "http://youtube.com/"
-    contentLength = find_size(url)
-    print ("\n" + url + " has loaded " + str(contentLength) + " bytes\n")
+    try:
+        contentLength = find_size(url)
+        print ("\n" + url + " has loaded " + str(contentLength) + " bytes\n")
+    except (IndexError, urllib2.HTTPError, ValueError) as error:
+        print error
 
 if __name__ == "__main__":
     main()
